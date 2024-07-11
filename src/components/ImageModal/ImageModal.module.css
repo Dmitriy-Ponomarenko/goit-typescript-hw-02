@@ -1,0 +1,12 @@
+.modalImg {
+  width: 100%;
+  height: 70vh;
+}
+
+.modalDesc {
+  padding: 16px;
+}
+
+.noScroll {
+  overflow: hidden;
+}

@@ -1,0 +1,41 @@
+.card {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid rgb(63, 58, 58);
+  border-radius: 10px;
+}
+
+img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.description {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.instagram {
+  padding-left: 16px;
+  padding-right: 16px;
+  font-weight: 600;
+}
+
+.link {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.link:hover {
+  color: rgb(249, 16, 47);
+}

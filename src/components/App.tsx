@@ -10,32 +10,46 @@ import Empty from "./Empty/Empty";
 import ImageModal from "./ImageModal/ImageModal";
 
 const App = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [showBtn, setShowBtn] = useState(false);
-  const [empty, setEmpty] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [imageModal, setImageModal] = useState(null);
+  interface Image {
+    urls: { regular: string };
+    description: string;
+    alt_description: string;
+  }
+
+  interface FetchImagesResponse {
+    results: Image[];
+    total_pages: number;
+  }
+
+  const [images, setImages] = useState<Image[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [query, setQuery] = useState<string>("");
+  const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [empty, setEmpty] = useState<boolean>(false);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [imageModal, setImageModal] = useState<Image | null>(null);
 
   useEffect(() => {
     if (query === "") {
       return;
     }
-    async function getImage() {
+    async function getImage(): Promise<void> {
       try {
-        setError(false);
+        setError(null);
         setLoading(true);
-        const data = await fetchImagesWithTopic(query, page);
-        setImages((prevImages) => {
+        const data: FetchImagesResponse = await fetchImagesWithTopic(
+          query,
+          page
+        );
+        setImages((prevImages: Image[]) => {
           return [...prevImages, ...data.results];
         });
-        setShowBtn(data.total_pages && data.total_pages !== page);
+        setShowBtn(data.total_pages > page);
         setEmpty(data.total_pages === 0);
       } catch (error) {
-        setError(error);
+        setError((error as Error).message);
       } finally {
         setLoading(false);
       }
@@ -43,22 +57,22 @@ const App = () => {
     getImage();
   }, [page, query]);
 
-  const handleSearch = (query) => {
+  const handleSearch = (query: string): void => {
     setQuery(query);
     setPage(1);
     setImages([]);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage(page + 1);
   };
 
-  function openModal(image) {
+  function openModal(image: Image): void {
     setIsOpen(true);
     setImageModal(image);
   }
 
-  function closeModal() {
+  function closeModal(): void {
     setIsOpen(false);
   }
 

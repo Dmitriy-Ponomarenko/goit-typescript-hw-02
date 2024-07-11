@@ -1,9 +1,14 @@
 import { toast } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 import { FcSearch } from "react-icons/fc";
+import { FormEvent } from "react";
 
-const SearchBar = ({ onSearch }) => {
-  const handleSubmit = (evt) => {
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const form = evt.target;
     const topic = form.elements.topic.value;
